@@ -44,6 +44,7 @@ public class IndexWithDuplicates  implements IndexService{
         Sorter.mergesort(array);
 
 
+
     }
 
     @Override
