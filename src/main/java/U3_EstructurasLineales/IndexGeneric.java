@@ -2,28 +2,43 @@ package U3_EstructurasLineales;
 
 import java.util.Arrays;
 
-public class IndexWithDuplicates  implements IndexService {
+public class IndexGeneric<T extends Comparable<? super T>> {
 
-    private int[] array;
-    private static final int chunkSize = 20;
+    private Object[] array;
+    public static final int chunkSize = 20;
     private int idx;
     private int size;
 
-    public IndexWithDuplicates() {
-        array = new int[chunkSize];
+    public IndexGeneric() {
+        array = new Object[chunkSize];
         size = chunkSize;
         idx = 0;
     }
 
-    private int getClosestPosition(int key) {
+
+    public void initialize(T[] elements) {
+        if (elements == null) {
+            throw new RuntimeException("elements must not be null");
+        }
+        idx = elements.length;
+        size = idx;
+        array = Arrays.copyOf(elements, idx);
+        Arrays.sort(array);
+
+    }
+
+    private int getClosestPosition(T key) {
         int left = 0, right = idx;
 
         while (left <= right) {
             int mid = (left + right) / 2;
-            if (array[mid] == key) {
+            T elem = (T) array[mid];
+            int cmp = elem.compareTo(key);
+
+            if (cmp == 0) {
                 return mid;
             }
-            if (array[mid] < key) {
+            if (cmp < 0) {
                 left = mid + 1;
             } else {
                 right = mid -1;
@@ -33,25 +48,12 @@ public class IndexWithDuplicates  implements IndexService {
         return left;
     }
 
-    @Override
-    public void initialize(int[] elements) {
-        if (elements == null) {
-            throw new RuntimeException("elements must not be null");
-        }
-        idx = elements.length;
-        size = idx;
-        array = Arrays.copyOf(elements, idx);
-        Sorter.mergesort(array);
 
+    public boolean search(T key) {
+        return array[getClosestPosition(key)].equals(key);
     }
 
-    @Override
-    public boolean search(int key) {
-        return array[getClosestPosition(key)] == key;
-    }
-
-    @Override
-    public void insert(int key) {
+    public void insert(T key) {
         // realocar si no hay espacio
         if (idx == 0) {
             array[idx++] = key;
@@ -69,11 +71,10 @@ public class IndexWithDuplicates  implements IndexService {
         array[i] = key;
     }
 
-    @Override
-    public void delete(int key) {
+    public void delete(T key) {
         // los tengo que traer a los amigos y decrementar el idx
         int i = getClosestPosition(key);
-        if (array[i] == key) {
+        if (array[i].equals(key)) {
             idx--;
             for (int j = i; j < idx; j++) {
                 array[j] = array[j+1];
@@ -81,26 +82,22 @@ public class IndexWithDuplicates  implements IndexService {
         }
     }
 
-    @Override
-    public int occurrences(int key) {
+    public int occurrences(T key) {
         int i = getClosestPosition(key);
-        if (array[i] != key) {
+        if (!array[i].equals(key)) {
             return 0;
         }
         int res = 1;
         // cuento hacia la izquierda
-        for (int j = i-1;j >= 0 && array[j] == key; j--) {
+        for (int j = i-1; j >= 0 && array[j].equals(key); j--) {
             res++;
         }
 
         // cuento hacia la derecha
-        for (int j = i+1; j < idx && array[j] == key; j++) {
+        for (int j = i+1; array[j].equals(key) && j < idx; j++) {
             res++;
         }
 
         return res;
     }
-
-
-
 }
