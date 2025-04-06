@@ -2,7 +2,7 @@ package U3_EstructurasLineales;
 
 import java.util.Arrays;
 
-public class IndexWithDuplicates  implements IndexService{
+public class IndexWithDuplicates  implements IndexService {
 
     private int[] array;
     private static final int chunkSize = 20;

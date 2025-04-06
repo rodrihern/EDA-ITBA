@@ -36,9 +36,23 @@ public class Qgram {
 
     public double similarity(String s1, String s2) {
 
+        Map<String, Integer> tok1 = getTokens(s1);
+        Map<String, Integer> tok2 = getTokens(s2);
 
+        int count = 0;
+        int sum = 0;
 
-        return 0;
+        for (String tok : tok1.keySet()) {
+            sum += tok1.get(tok);
+            if (tok2.containsKey(tok)) {
+                count += Math.min(tok1.get(tok), tok2.get(tok));
+            }
+        }
+        for (String tok : tok2.keySet()) {
+            sum += tok2.get(tok);
+        }
+
+        return count / (double) sum;
     }
 
 
