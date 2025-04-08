@@ -28,9 +28,14 @@ public class IndexGeneric<T extends Comparable<? super T>> {
     }
 
     private int getClosestPosition(T key) {
+        if (idx == 0) {
+            return 0;
+        }
+
         int left = 0, right = idx;
 
-        while (left <= right) {
+
+        while (left < right) {
             int mid = (left + right) / 2;
             T elem = (T) array[mid];
             int cmp = elem.compareTo(key);
@@ -50,7 +55,47 @@ public class IndexGeneric<T extends Comparable<? super T>> {
 
 
     public boolean search(T key) {
-        return array[getClosestPosition(key)].equals(key);
+
+        return idx != 0 && array[getClosestPosition(key)].equals(key);
+    }
+
+    public T[] range(T from, T to, boolean leftIncluded, boolean rightIncluded) {
+        if (to.compareTo(from) < 0) {
+            return (T[]) java.lang.reflect.Array.newInstance(from.getClass(), 0);
+        }
+        // encontramos el i
+        int i = getClosestPosition(from);
+        if (i >= idx) {
+            return (T[]) java.lang.reflect.Array.newInstance(from.getClass(), 0);
+        }
+        if (leftIncluded) {
+            while (i >= 0 && array[i].equals(from)) {
+                i--;
+            }
+            i++;
+        } else {
+            while (i < idx && array[i].equals(from)) {
+                i++;
+            }
+        }
+        // encontramos el j
+        int j = getClosestPosition(to);
+        if (j >= idx) {
+            return (T[]) java.lang.reflect.Array.newInstance(from.getClass(), 0);
+        }
+        if (rightIncluded) {
+            while (j < idx && to.compareTo((T) array[j]) >= 0) {
+                j++;
+            }
+        } else {
+            while (j < idx && to.compareTo((T) array[j]) > 0) {
+                j++;
+            }
+        }
+        if (i > j) {
+            return (T[]) java.lang.reflect.Array.newInstance(from.getClass(), 0);
+        }
+        return (T[]) Arrays.copyOfRange(array, i, j);
     }
 
     public void insert(T key) {
@@ -73,6 +118,9 @@ public class IndexGeneric<T extends Comparable<? super T>> {
 
     public void delete(T key) {
         // los tengo que traer a los amigos y decrementar el idx
+        if (idx == 0) {
+            return;
+        }
         int i = getClosestPosition(key);
         if (array[i].equals(key)) {
             idx--;
@@ -83,6 +131,9 @@ public class IndexGeneric<T extends Comparable<? super T>> {
     }
 
     public int occurrences(T key) {
+        if (idx == 0) {
+            return 0;
+        }
         int i = getClosestPosition(key);
         if (!array[i].equals(key)) {
             return 0;
@@ -94,7 +145,7 @@ public class IndexGeneric<T extends Comparable<? super T>> {
         }
 
         // cuento hacia la derecha
-        for (int j = i+1; array[j].equals(key) && j < idx; j++) {
+        for (int j = i+1; j < idx && array[j].equals(key)  ; j++) {
             res++;
         }
 
