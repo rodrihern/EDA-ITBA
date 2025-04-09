@@ -1,0 +1,7 @@
+- revisar el index with duplicates mirando el del alumno con un decompiler
+- usar el copilot y el apunte de nash para ir haciendo un resumen
+
+Para la version final:
+- pasar a mapa <Operador, Funcion> para no tener que usar un switch usando enum para los operadores
+- ordenar en carpetas
+- refactorizar el amigo este de la infija usando enum para las operaciones
