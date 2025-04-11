@@ -57,6 +57,20 @@ public class Evaluator {
     public Evaluator() {
         this(new HashMap<>());
     }
+    
+    // Constructor for testing purposes
+    public Evaluator(String expression, Map<String, Double> variables) {
+        this.variables = variables;
+        for (Operation op : Operation.values()) {
+            operationMap.put(op.toString(), op);
+        }
+        scannerLine = new Scanner(expression).useDelimiter("\\s+");
+    }
+    
+    // Constructor for testing with no variables
+    public Evaluator(String expression) {
+        this(expression, new HashMap<>());
+    }
 
 
     public Double evaluate() {
@@ -136,15 +150,6 @@ public class Evaluator {
         return postfija.toString();
     }
 
-
-
-
-
-    public static void main(String[] args) {
-        Map<String, Double> myVars = new HashMap<>() {{
-            put("A", 2.0); put("B", 3.0);
-        }};
-        Evaluator e = new Evaluator(myVars);
-        System.out.println(e.evaluate());
-    }
+    
 }
+
