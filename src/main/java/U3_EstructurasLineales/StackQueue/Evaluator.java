@@ -3,14 +3,14 @@ package U3_EstructurasLineales.StackQueue;
 
 import java.util.*;
 
-public class EvaluatorInFijaBasicOperator {
+public class Evaluator {
 
-    // opcion 1, esto porai hacerlo de otra manera para el ultimo
+    private final Map<String, Operation> operationMap = new HashMap<>();
+    private Map<String, Double> variables;
 
-    private static final Map<String, Integer> precedenceMap = new HashMap<String, Integer>() {
+    private static final Map<String, Integer> precedenceMap = new HashMap<>() {
         { put("+", 0); put("-", 1); put("*", 2); put("/", 3); put("^", 4); put("(", 5); put(")", 6);}
     };
-    private final Map<String, Operation> operationMap = new HashMap<>();
 
     private static final boolean[][] precedenceMatriz= {
             { true,  true,  false, false, false, false, true  }, // +
@@ -38,25 +38,31 @@ public class EvaluatorInFijaBasicOperator {
 
     private Scanner scannerLine;
 
-    public EvaluatorInFijaBasicOperator()  {
+
+    public Evaluator(Map<String, Double> variables)  {
+        this.variables = variables;
+        for (Operation op : Operation.values()) {
+            operationMap.put(op.toString(), op);
+        }
+
         Scanner input = new Scanner(System.in).useDelimiter("\\n");
         System.out.print("Introduzca la expresion en notacion infija: ");
         String line= input.nextLine();
         input.close();
 
-        for (Operation op : Operation.values()) {
-            operationMap.put(op.toString(), op);
-        }
 
         scannerLine = new Scanner(line).useDelimiter("\\s+");
     }
 
+    public Evaluator() {
+        this(new HashMap<>());
+    }
 
-    // TODO: cambiar el try-catch del parseDouble cuando hagamos el metodo isOperand
+
     public Double evaluate() {
         // hay que pasarlo a infija primero
         Deque<Double> operands = new ArrayDeque<>();
-        scannerLine = new Scanner(infijaToPostfija()).useDelimiter("\\s+");;
+        scannerLine = new Scanner(infijaToPostfija()).useDelimiter("\\s+");
 
         while( scannerLine.hasNext() ) {
             String tok = scannerLine.next();
@@ -88,7 +94,6 @@ public class EvaluatorInFijaBasicOperator {
         return operands.pop();
     }
 
-
     private String infijaToPostfija() {
         StringBuilder postfija= new StringBuilder();
         Deque<String> operators = new ArrayDeque<>();
@@ -97,24 +102,30 @@ public class EvaluatorInFijaBasicOperator {
         while( scannerLine.hasNext() ) {
             String current = scannerLine.next();
 
-            // TODO: cambiar por un if-else con un metodo isOperand
             try {
                 double num = Double.parseDouble(current);
                 postfija.append(num).append(" ");
             } catch (Exception _) {
-                while (!operators.isEmpty() && getPrecedence(operators.peek(), current)) {
-                    postfija.append(operators.pop()).append(" ");
-                }
-                if (current.equals(")")) {
-                    if ("(".equals(operators.peek())) {
-                        operators.pop();
-                    } else {
-                        throw new RuntimeException("closing parenthesis without previous opening");
-                    }
-
+                // chequear si es variable ahora
+                if (variables.containsKey(current)) {
+                    postfija.append(variables.get(current)).append(" ");
                 } else {
-                    operators.push(current);
+                    while (!operators.isEmpty() && getPrecedence(operators.peek(), current)) {
+                        postfija.append(operators.pop()).append(" ");
+                    }
+                    if (current.equals(")")) {
+                        if ("(".equals(operators.peek())) {
+                            operators.pop();
+                        } else {
+                            throw new RuntimeException("closing parenthesis without previous opening");
+                        }
+
+                    } else {
+                        operators.push(current);
+                    }
                 }
+
+
             }
         }
 
@@ -128,8 +139,12 @@ public class EvaluatorInFijaBasicOperator {
 
 
 
+
     public static void main(String[] args) {
-        EvaluatorInFijaBasicOperator e = new EvaluatorInFijaBasicOperator();
+        Map<String, Double> myVars = new HashMap<>() {{
+            put("A", 2.0); put("B", 3.0);
+        }};
+        Evaluator e = new Evaluator(myVars);
         System.out.println(e.evaluate());
     }
 }
