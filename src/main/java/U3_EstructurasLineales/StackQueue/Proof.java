@@ -1,4 +1,4 @@
-package U3_EstructurasLineales;
+package U3_EstructurasLineales.StackQueue;
 import java.util.Scanner;
 
 public class Proof {

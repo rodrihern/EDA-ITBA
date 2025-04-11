@@ -1,4 +1,4 @@
-package U3_EstructurasLineales;
+package U3_EstructurasLineales.Arrays;
 
 
 public interface IndexService {
