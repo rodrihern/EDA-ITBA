@@ -1,10 +1,15 @@
 package U3_EstructurasLineales.Lists;
 
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 // lista simplemente encadenada, no acepta repetidos (false e ignora) ni nulls (exception)
 public class SortedLinkedList<T extends Comparable<? super T>> implements SortedListService<T>{
 
     private Node root;
+    private int size = 0;
+    private T max = null;
 
     @Override
     // Iterativo
@@ -24,7 +29,7 @@ public class SortedLinkedList<T extends Comparable<? super T>> implements Sorted
 
         // repetido?
         if (current!=null && current.data.compareTo(data) == 0) {
-            System.err.println(String.format("Insertion failed. %s repeated", data));
+            System.err.printf("Insertion failed. %s repeated%n", data);
             return false;
         }
 
@@ -36,9 +41,13 @@ public class SortedLinkedList<T extends Comparable<? super T>> implements Sorted
         }
         else {
             // nodo interno
+            if (prev.next == null) {
+                max = data;
+            }
             prev.next= aux;
         }
 
+        size++;
         return true;
     }
 
@@ -49,7 +58,10 @@ public class SortedLinkedList<T extends Comparable<? super T>> implements Sorted
             throw new IllegalArgumentException("data cannot be null");
 
         boolean[] rta = new boolean[1];
-        root= insertRec(data, root, rta);
+        root = insertRec(data, root, rta);
+        if (rta[0]) {
+            size++;
+        }
         return rta[0];
     }
 
@@ -69,8 +81,21 @@ public class SortedLinkedList<T extends Comparable<? super T>> implements Sorted
 
     // insert resuelto delegando al nodo
     public boolean insert3(T data) {
-        // TODO: completar
-        return true;
+        if (data == null) {
+            throw new IllegalArgumentException("data cannot be null");
+        }
+
+        if (root == null) {
+            root = new Node(data);
+        }
+
+        boolean[] rta = new boolean[1];
+        root = root.insert(data, rta);
+        if (rta[0]) {
+            size++;
+        }
+        return rta[0];
+
     }
 
 
@@ -83,7 +108,7 @@ public class SortedLinkedList<T extends Comparable<? super T>> implements Sorted
     // iterativo
     @Override
     public boolean remove(T data) {
-        // TODO: completar
+        // TODO: completar (hecho por la catedra)
         return true;
     }
 
@@ -104,7 +129,7 @@ public class SortedLinkedList<T extends Comparable<? super T>> implements Sorted
 
     // delete resuelto delegando al nodo
     public boolean remove3(T data) {
-        // completar
+        // TODO: completar
         return true;
     }
 
@@ -179,6 +204,10 @@ public class SortedLinkedList<T extends Comparable<? super T>> implements Sorted
         return -1;
     }
 
+    public int getSize() {
+        return size;
+    }
+
     @Override
     public T getMin() {
         return root == null ? null : root.data;
@@ -188,23 +217,31 @@ public class SortedLinkedList<T extends Comparable<? super T>> implements Sorted
     @Override
     public T getMax() {
 
-        if (root == null)
-            return null;
-
-        Node current = root;
-
-
-        while (current.next !=null ) {
-            // avanzo
-            current= current.next;
-        }
-
-        return current.data;
+        return max;
     }
 
+    @Override
+    public Iterator<T> iterator() {
+        return new Iterator<T>() {
+            Node current = root;
 
+            @Override
+            public boolean hasNext() {
+                return current != null && current.next != null;
+            }
 
+            @Override
+            public T next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+                T res = current.data;
+                current = current.next;
+                return res;
 
+            }
+        };
+    }
 
 
     private final class Node {
@@ -214,6 +251,30 @@ public class SortedLinkedList<T extends Comparable<? super T>> implements Sorted
         private Node(T data, Node next) {
             this.data= data;
             this.next= next;
+        }
+
+        private Node(T data) {
+            this.data = data;
+            this.next = null;
+        }
+
+        public Node insert(T data, boolean[] added) {
+
+            if (this.data.compareTo(data) > 0) {
+                // inserto
+                added[0] = true;
+                return new Node(data, this);
+            } else if (this.data.compareTo(data) < 0) {
+                // avanzo
+                if (this.next == null) {
+                    added[0] = true;
+                    this.next = new Node(data);
+                    return this;
+                }
+                next = next.insert(data, added);
+            }
+
+            return this;
         }
 
     }
