@@ -28,7 +28,7 @@ public class SortedLinkedListWithHeader<T extends Comparable<? super T>> impleme
         }
         private Node insert(T data, boolean[] rta) {
             if (this.data.compareTo(data) == 0) {
-                System.err.println(String.format("Insertion failed %s", data));
+                System.err.printf("Insertion failed %s%n", data);
                 rta[0] = false;
                 return this;
             }
