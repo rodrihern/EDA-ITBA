@@ -60,13 +60,14 @@ public class IndexGeneric<T extends Comparable<? super T>> {
     }
 
     public T[] range(T from, T to, boolean leftIncluded, boolean rightIncluded) {
+        T[] emptyArray = (T[]) java.lang.reflect.Array.newInstance(from.getClass(), 0);
         if (to.compareTo(from) < 0) {
-            return (T[]) java.lang.reflect.Array.newInstance(from.getClass(), 0);
+            return emptyArray;
         }
         // encontramos el i
         int i = getClosestPosition(from);
         if (i >= idx) {
-            return (T[]) java.lang.reflect.Array.newInstance(from.getClass(), 0);
+            return emptyArray;
         }
         if (leftIncluded) {
             while (i >= 0 && array[i].equals(from)) {
@@ -81,7 +82,7 @@ public class IndexGeneric<T extends Comparable<? super T>> {
         // encontramos el j
         int j = getClosestPosition(to);
         if (j >= idx) {
-            return (T[]) java.lang.reflect.Array.newInstance(from.getClass(), 0);
+            return emptyArray;
         }
         if (rightIncluded) {
             while (j < idx && to.compareTo((T) array[j]) >= 0) {
@@ -93,7 +94,7 @@ public class IndexGeneric<T extends Comparable<? super T>> {
             }
         }
         if (i > j) {
-            return (T[]) java.lang.reflect.Array.newInstance(from.getClass(), 0);
+            return (T[])emptyArray;
         }
         return (T[]) Arrays.copyOfRange(array, i, j);
     }

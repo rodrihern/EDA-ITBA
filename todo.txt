@@ -1,7 +1,4 @@
 - revisar el index with duplicates mirando el del alumno con un decompiler
 - usar el copilot y el apunte de nash para ir haciendo un resumen
 - completar con nash toodo lo que falte
-- Ver de nash lo de los remove y la lista with header
-- los remove
-- ver que era eso del header
-- lo del iterador y remove del iterador de la lista, O(1) borrando desde el iterador
+- hacer los remove

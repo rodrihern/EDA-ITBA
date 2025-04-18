@@ -4,10 +4,9 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Stack;
 
-// TODO: verlo y entenderlo
 
 public class SortedLinkedListWithHeader<T extends Comparable<? super T>> implements SortedListService<T> {
-    private Header header;
+    private final Header header;
 
     private final class Header {
         private Node first;
@@ -161,7 +160,7 @@ public class SortedLinkedListWithHeader<T extends Comparable<? super T>> impleme
         return false;
     }
 
-    // delete resuelto todo en la clase SortedLinkedList, recursivo
+    // delete resuelto toodo en la clase SortedLinkedList, recursivo
     //	@Override
     public boolean remove2(T data) {
         if (data == null) {
@@ -241,7 +240,7 @@ public class SortedLinkedListWithHeader<T extends Comparable<? super T>> impleme
 
     @Override
     public boolean equals(Object other) {
-        if (other == null || !(other instanceof SortedLinkedListWithHeader<?>))
+        if (!(other instanceof SortedLinkedListWithHeader<?>))
             return false;
 
         @SuppressWarnings("unchecked")
@@ -284,7 +283,7 @@ public class SortedLinkedListWithHeader<T extends Comparable<? super T>> impleme
     }
 
     private class SortedLinkedListIterator implements Iterator<T> {
-        private Node iter;
+        private Node current;
         private boolean canRemove;
         private Node prev;
         private Node toDel;
@@ -292,33 +291,36 @@ public class SortedLinkedListWithHeader<T extends Comparable<? super T>> impleme
         private Stack<Node> stack;
 
         SortedLinkedListIterator() {
-            iter = header.first;
+            current = header.first;
         }
 
         public boolean hasNext() {
-            return iter != null;
+            return current != null;
         }
 
         public T next() {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
-            T aux = iter.data;
+            T aux = current.data;
             prev = toDel;
-            toDel = iter;
-            iter = iter.next;
+            toDel = current;
+            current = current.next;
             canRemove = true;
             return aux;
 
         }
 
         public void remove(){
-            if (!canRemove)
+            if (!canRemove) {
                 throw new IllegalStateException();
+            }
+
             canRemove=false;
-            if (toDel.equals(header.first))
-                header.first = iter;
-            else prev.next = iter;
+            if (toDel.equals(header.first)) {
+                header.first = current;
+            }
+            else prev.next = current;
 
         }
 
