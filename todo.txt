@@ -1,4 +1,2 @@
-- revisar el index with duplicates mirando el del alumno con un decompiler
-- usar el copilot y el apunte de nash para ir haciendo un resumen
-- completar con nash toodo lo que falte
+- pedirle a copilot que me haga un resumen basado en el de nash
 - hacer los remove

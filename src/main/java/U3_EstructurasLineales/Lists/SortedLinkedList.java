@@ -108,22 +108,49 @@ public class SortedLinkedList<T extends Comparable<? super T>> implements Sorted
     // iterativo
     @Override
     public boolean remove(T data) {
-        // TODO: completar (hecho por la catedra)
-        return true;
+        if (data == null) {
+            throw new IllegalArgumentException();
+        }
+        Node current = root;
+        Node prev = null;
+        while (current != null && current.data.compareTo(data) <= 0) {
+            if (current.data.equals(data)) {
+                // remove
+                if (prev == null) {
+                    root = current.next;
+                } else {
+                    prev.next = current.next;
+                }
+                return true;
+            }
+            prev = current;
+            current = current.next;
+        }
+
+        return false;
     }
 
 
     // recursivo
     public boolean remove2(T data) {
-        // TODO: completar
-        return true;
+        boolean[] removed = new boolean[1];
+        root = removeRec(data, root, removed);
+        return removed[0];
 
     }
 
 
-    private Node removeRec(T data, Node current, boolean[] rta) {
-        // TODO: completar
-        return null;
+    private Node removeRec(T data, Node current, boolean[] removed) {
+        if (current == null || current.data.compareTo(data) > 0) {
+            return current;
+        }
+        if (current.data.compareTo(data) == 0) {
+            // remove
+            removed[0] = true;
+            return current.next;
+        }
+        current.next = removeRec(data, current.next, removed);
+        return current;
     }
 
 
@@ -274,6 +301,19 @@ public class SortedLinkedList<T extends Comparable<? super T>> implements Sorted
                 next = next.insert(data, added);
             }
 
+            return this;
+        }
+
+        public Node remove(T data, boolean[] removed) {
+            if (this.data.compareTo(data) > 0) {
+                return this;
+            }
+            if (this.data.compareTo(data) == 0) {
+                removed[0] = true;
+                return this.next;
+            }
+            // tengo que seguir buscando remover en mi next
+            this.next = next.remove(data, removed);
             return this;
         }
 

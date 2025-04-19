@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Stack;
 
-
+// copiado del drive de Nash
 public class SortedLinkedListWithHeader<T extends Comparable<? super T>> implements SortedListService<T> {
     private final Header header;
 
