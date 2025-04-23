@@ -84,13 +84,13 @@ public class SortedLinkedListWithHeader<T extends Comparable<? super T>> impleme
             current = current.next;
         }
         Node newNode = new Node(data, current);
-        if(current == header.first){
+        if (current == header.first){
             header.first = newNode;
         }
         else {
             prev.next = newNode;
         }
-        if(current == header.last){
+        if (current == header.last){
             header.last = newNode;
         }
         header.size++;
