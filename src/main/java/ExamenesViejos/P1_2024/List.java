@@ -47,20 +47,19 @@ public class List {
 
 
     private  List[] randomSplitLists( Integer nLists ) {
-        // como la lista ya viene ordenada siempre que inserto inserto al final
-        // recorro la lista y los voy metiendo en el arreglo
+
         List[] res = new List[nLists];
         // inicializo todos los constructores
-        for (int i = 0; i < nLists; i++) {
+        for (int i = 0; i < nLists; i++) { // O(n)
             res[i] = new List();
         }
 
         Item current = first;
-        while (current != null) {
+        while (current != null) { // O(m)
             Item next = current.next; // backup del next
-            int idx = getRandom(nLists);
-            res[idx].insert(current); // pierdo la referencia al siguiente (por eso me guardo el next)
-            current = next;
+            int idx = getRandom(nLists); // O(1)
+            res[idx].insert(current); // O(1) inserto al final
+            current = next; //
         }
 
         return res;
@@ -77,8 +76,7 @@ public class List {
     }
 
     /*
-     * La complejidad temporal es O(n) pues tiene que recorrer toda la lista
-     *  insertar es lineal ya que insertamos directamente al final y es solo reacomodar punteros
+     * La complejidad temporal es O(n) + O(m)*O(1) = O(n+m)
      * La complejidad espacial es O(n) ya que se usa un array de tamaño nList
      * y no se necesita de espacio extra ya que usamos los mismos item ya creados
      * */
