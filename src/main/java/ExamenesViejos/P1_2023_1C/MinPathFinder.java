@@ -2,7 +2,7 @@ package ExamenesViejos.P1_2023_1C;
 
 public class MinPathFinder {
 
-    // con dinamic programing
+    // con dinamic programing recursivo
     public int findMinPath(int[][] weightMatrix) {
         // asumiendo que los pesos son positivos
         int[][] memo = new int[weightMatrix.length][weightMatrix[0].length];
@@ -38,6 +38,7 @@ public class MinPathFinder {
 
     // codigo de nash iterativo sobre matriz auxiliar
     // en la matrix auxiliar vamos poniendo el peso de llegar a cada celda
+    // parecido a calcular levenshtein
     public int getMinPath(int[][] weightMatrix){
         int rows = weightMatrix.length;
         int columns = weightMatrix[0].length;
