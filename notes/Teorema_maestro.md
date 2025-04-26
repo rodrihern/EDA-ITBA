@@ -91,7 +91,7 @@ void mergeSort(int[] arr, int left, int right) {
 ````
 
 * Se divide en 2 subproblemas $\rightarrow a=2$
-* Cada subproblema tiene tamaño N/2 $rightarrow b=2$
+* Cada subproblema tiene tamaño N/2 $\rightarrow b=2$
 * El trabajo de merge es lineal $\rightarrow d=1$
 
 luego $b^d=2^1=2=a$
