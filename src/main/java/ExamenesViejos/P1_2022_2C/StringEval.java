@@ -9,7 +9,6 @@ public class StringEval {
     public String evaluate(String expression) {
         Deque<String> operands = new ArrayDeque<>();
         String[] tokens = expression.split("\\s+");
-        // TODO: completar
 
         for (String tok : tokens) {
             if (tok.matches("^[a-zA-Z]+$")) { // operand
@@ -30,8 +29,6 @@ public class StringEval {
         }
 
         return operands.pop();
-
-
     }
 
     private String apply(String s1, String s2, String op) {
