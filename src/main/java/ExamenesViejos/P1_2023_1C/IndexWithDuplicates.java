@@ -50,7 +50,7 @@ public class IndexWithDuplicates<E extends Comparable<E> > {
             if (cmp < 0) {
                 left = mid + 1;
             } else {
-                right = mid -1;
+                right = mid;
             }
         }
 

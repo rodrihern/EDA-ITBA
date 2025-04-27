@@ -28,7 +28,7 @@ public class KMP {
         return next;
     }
 
-
+    
     private static int[] nextComputation2(char[] query) {
         int[] next = new int[query.length];
         next[0] = 0;     // Always. There's no proper border.

@@ -46,7 +46,7 @@ public class IndexGeneric<T extends Comparable<? super T>> {
             if (cmp < 0) {
                 left = mid + 1;
             } else {
-                right = mid -1;
+                right = mid;
             }
         }
 

@@ -45,7 +45,7 @@ public class LevenshteinCalculator {
             values[0][j] = j;
         }
 
-        // fill the rest of the values
+        // fill the rest with the values
         for (int i = 1; i < n; i++) {
             for (int j = 1; j < m; j++) {
                 values[i][j] = values[i-1][j-1] + (s1[i] != s2[j] ? 1 : 0);
