@@ -13,6 +13,7 @@ public class Evaluator {
     };
 
     private static final boolean[][] precedenceMatriz= {
+            // +      -      *      /      ^      (      )
             { true,  true,  false, false, false, false, true  }, // +
             { true,  true,  false, false, false, false, true  }, // -
             { true,  true,  true,  true,  false, false, true  }, // *
