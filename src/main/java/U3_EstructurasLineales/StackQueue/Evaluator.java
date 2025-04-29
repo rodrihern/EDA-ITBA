@@ -128,6 +128,7 @@ public class Evaluator {
                     postfija.append(variables.get(current)).append(" ");
                 } else { // no es una variable
                     while (!operators.isEmpty() && getPrecedence(operators.peek(), current)) {
+                        // opera con todos los que tengan mayor precedencia
                         postfija.append(operators.pop()).append(" ");
                     }
                     if (current.equals(")")) {
