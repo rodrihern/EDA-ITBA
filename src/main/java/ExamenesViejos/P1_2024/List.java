@@ -46,7 +46,7 @@ public class List {
     }
 
 
-    private  List[] randomSplitLists( Integer nLists ) {
+    private  List[] randomSplitLists(Integer nLists) {
 
         List[] res = new List[nLists];
         // inicializo todos los constructores
@@ -67,7 +67,8 @@ public class List {
 
     private void insert(Item item) {
         if (first == null) {
-            first = last = item;
+            first = last = item; // final de la lista
+            item.next = null;
             return;
         }
         last.next = item;

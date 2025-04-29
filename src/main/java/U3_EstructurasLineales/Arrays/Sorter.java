@@ -46,40 +46,59 @@ public class Sorter {
         arr[j] = temp;
     }
 
-    // Ordena un array con el algoritmo MERGE SORT
-    public static void mergesort(int[] arr) {
-        if (arr.length <= 1) {
-            return;
-        }
-
-        int mid = arr.length / 2;
-        int[] leftHalf = Arrays.copyOfRange(arr, 0, mid);
-        int[] rightHalf = Arrays.copyOfRange(arr, mid, arr.length);
-
-        mergesort(leftHalf);
-        mergesort(rightHalf);
-
-        merge(arr, leftHalf, rightHalf);
+    public void mergeSort(int[] arr) {
+        mergeSort(arr, 0, arr.length-1);
     }
 
-    private static void merge(int[] arr, int[] a1, int[] a2) {
-        int i = 0, j = 0, k = 0;
-        while (i < a1.length && j < a2.length) {
-            if (a1[i] <= a2[j]) {
-                arr[k++] = a1[i++];
+    public void mergeSort(int[] arr, int left, int right) {
+        if (left >= right) return;
+
+        int mid = left + (right - left) / 2;
+
+        // Dividir recursivamente
+        mergeSort(arr, left, mid);
+        mergeSort(arr, mid + 1, right);
+
+        // Combinar las mitades ordenadas
+        merge(arr, left, mid, right);
+    }
+
+    private void merge(int[] arr, int left, int mid, int right) {
+        // Tamaños de los subarrays
+        int n1 = mid - left + 1;
+        int n2 = right - mid;
+
+        // Crear arreglos temporales
+        int[] leftArr = new int[n1];
+        int[] rightArr = new int[n2];
+
+        // Copiar los datos a los arreglos temporales
+        for (int i = 0; i < n1; i++)
+            leftArr[i] = arr[left + i];
+        for (int j = 0; j < n2; j++)
+            rightArr[j] = arr[mid + 1 + j];
+
+        // Mezclar los arreglos temporales
+        int i = 0, j = 0, k = left;
+
+        while (i < n1 && j < n2) {
+            if (leftArr[i] <= rightArr[j]) {
+                arr[k++] = leftArr[i++];
             } else {
-                arr[k++] = a2[j++];
+                arr[k++] = rightArr[j++];
             }
         }
 
-        // llenamos con lo que haya sobrado
-        while (i < a1.length) {
-            arr[k++] = a1[i++];
+        // Copiar los elementos restantes
+        while (i < n1) {
+            arr[k++] = leftArr[i++];
         }
-        while (j < a2.length) {
-            arr[k++] = a2[j++];
+        while (j < n2) {
+            arr[k++] = rightArr[j++];
         }
     }
+
+
 
 
 }

@@ -58,10 +58,10 @@ public class IndexWithDuplicates<E extends Comparable<E> > {
     }
 
     void repeatedValues( E[] values, SimpleLinkedList<E> repeatedLst, SimpleLinkedList<E> singleLst, SimpleLinkedList<E> notIndexedLst ) {
-        for (E val : values) {
-            int i = getClosestPosition(val);
+        for (E val : values) { // O(N)
+            int i = getClosestPosition(val); // O(logM)
             if (val.equals(m_idx[i])) {
-                if ( (i > 0 && val.equals(m_idx[i-1])) || (i < m_size && val.equals(m_idx[i+1])) ) {
+                if ( (i > 0 && val.equals(m_idx[i-1])) || (i < m_size-1 && val.equals(m_idx[i+1])) ) {
                     repeatedLst.insert(val);
                 } else {
                     singleLst.insert(val);
