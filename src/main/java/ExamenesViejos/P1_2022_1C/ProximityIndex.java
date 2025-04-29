@@ -27,10 +27,8 @@ public class ProximityIndex {
             return null;
         }
         i += distance; // hago el desfazaje
-        if (i < 0) {
-            i += (-i/size + 1)*size;
-        }
-        i %= size;  // lo trato como lista circular en O(1)
+
+        i = ((i % size) + size) % size;  // lo trato como lista circular en O(1)
         return elements[i];
     }
 

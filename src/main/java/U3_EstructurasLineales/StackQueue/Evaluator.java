@@ -108,22 +108,25 @@ public class Evaluator {
         return operands.pop();
     }
 
-    private String infijaToPostfija() {
+    public String infijaToPostfija() {
         StringBuilder postfija= new StringBuilder();
         Deque<String> operators = new ArrayDeque<>();
 
 
         while( scannerLine.hasNext() ) {
             String current = scannerLine.next();
+            System.out.println("token: " + current);
+            System.out.println(operators);
+            System.out.println("postfija: " + postfija);
+            System.out.println("-------------------");
 
-            try {
+            try { // vemos si es un numero
                 double num = Double.parseDouble(current);
                 postfija.append(num).append(" ");
-            } catch (Exception _) {
-                // chequear si es variable ahora
-                if (variables.containsKey(current)) {
+            } catch (Exception _) { // no es un numero
+                if (variables.containsKey(current)) { // vemos si es una variable
                     postfija.append(variables.get(current)).append(" ");
-                } else {
+                } else { // no es una variable
                     while (!operators.isEmpty() && getPrecedence(operators.peek(), current)) {
                         postfija.append(operators.pop()).append(" ");
                     }
@@ -150,6 +153,13 @@ public class Evaluator {
         return postfija.toString();
     }
 
-    
+
+    public static void main(String[] args) {
+        String input = "5 ^ ( 1 - 1 ) ^ ( 3 / 1 ) * 5";
+        System.out.println("infija: " + input);
+        System.out.println("-------------------");
+        Evaluator eval = new Evaluator(input, new HashMap<>());
+        System.out.println("postfija: " + eval.infijaToPostfija());
+    }
 }
 
