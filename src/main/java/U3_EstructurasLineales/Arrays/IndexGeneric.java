@@ -32,10 +32,10 @@ public class IndexGeneric<T extends Comparable<? super T>> {
             return 0;
         }
 
-        int left = 0, right = idx;
+        int left = 0, right = idx-1;
 
 
-        while (left < right) {
+        while (left <= right) {
             int mid = (left + right) / 2;
             T elem = (T) array[mid];
             int cmp = elem.compareTo(key);
@@ -46,7 +46,7 @@ public class IndexGeneric<T extends Comparable<? super T>> {
             if (cmp < 0) {
                 left = mid + 1;
             } else {
-                right = mid;
+                right = mid - 1;
             }
         }
 

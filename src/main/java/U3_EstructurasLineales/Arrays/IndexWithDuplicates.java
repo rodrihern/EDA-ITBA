@@ -17,9 +17,9 @@ public class IndexWithDuplicates  implements IndexService {
     }
 
     private int getClosestPosition(int key) {
-        int left = 0, right = idx;
+        int left = 0, right = idx-1;
 
-        while (left < right) {
+        while (left <= right) {
             int mid = (left + right) / 2;
             if (array[mid] == key) {
                 return mid;
@@ -27,7 +27,7 @@ public class IndexWithDuplicates  implements IndexService {
             if (array[mid] < key) {
                 left = mid + 1;
             } else {
-                right = mid;
+                right = mid - 1;
             }
         }
 
