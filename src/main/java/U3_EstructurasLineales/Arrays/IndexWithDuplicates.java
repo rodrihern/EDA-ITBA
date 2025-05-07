@@ -42,7 +42,7 @@ public class IndexWithDuplicates  implements IndexService {
         idx = elements.length;
         size = idx;
         array = Arrays.copyOf(elements, idx);
-        Sorter.mergesort(array);
+        Arrays.sort(array);
 
     }
 

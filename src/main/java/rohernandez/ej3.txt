@@ -1,0 +1,10 @@
+Con el query "content:IEDO~ AND content:[PI TO SOS] "
+
+encontro el documento d.txt pues los contenidos de documento estan entre PI y SOS
+ademas matchea iedo con video a una distancia de levenshtein de 2
+(intercambiando de posicion la i y la e, y agregando una v)
+
+
+Con el query "content:\"review game game,\" OR content:\",,store,,game\""
+
+encontro el documento a.txt pues este contiene "store" y "game" como contenidos

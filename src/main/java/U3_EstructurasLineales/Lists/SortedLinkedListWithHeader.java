@@ -283,12 +283,12 @@ public class SortedLinkedListWithHeader<T extends Comparable<? super T>> impleme
     }
 
     private class SortedLinkedListIterator implements Iterator<T> {
+
         private Node current;
         private boolean canRemove;
         private Node prev;
         private Node toDel;
 
-        private Stack<Node> stack;
 
         SortedLinkedListIterator() {
             current = header.first;

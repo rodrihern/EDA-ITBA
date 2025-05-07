@@ -1,5 +1,2 @@
-- hacer resumen con lo mas importante de esto anashei
-- hacerme la carpeta de nash
-- ordenar las carpetas
-- crear un proyecto para el dia del examen con el pom piola
-- hacer el de leucene del parcial 2024
+- ver con nash y gpt lo de hashing
+- ver el arbol de expresion de la catedra y el de copiloto (si quiero hacer otro mio)
