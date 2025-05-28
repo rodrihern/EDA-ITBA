@@ -134,11 +134,11 @@ public class SortedCompactedList<T extends Comparable<? super T>> implements Ite
         SortedCompactedListIterator() {
             current = root;
             prev = null;
-            itemsLeft = root.count;
+            itemsLeft = (root != null) ? root.count : 0;
         }
 
         public boolean hasNext() {
-            return itemsLeft > 0 || current.next != null;
+            return current != null && (itemsLeft > 0 || current.next != null);
         }
 
         public T next() {
@@ -163,19 +163,17 @@ public class SortedCompactedList<T extends Comparable<? super T>> implements Ite
             // Decremento el count del nodo actual
             current.count--;
 
-
             if (current.count == 0) { // tengo que eliminar el nodo
                 if (prev == null) {
                     root = current.next;
                 } else {
                     prev.next = current.next;
                 }
+
                 current = current.next;
-                if (current != null) {
-                    itemsLeft = current.count;
-                } else {
-                    itemsLeft = 0;
-                }
+
+                // Si current es null, significa que hemos eliminado el último nodo
+                itemsLeft = (current != null) ? current.count : 0;
             }
         }
     }

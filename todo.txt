@@ -1,2 +1,11 @@
-- ver con nash y gpt lo de hashing
-- ver el arbol de expresion de la catedra y el de copiloto (si quiero hacer otro mio)
+
+- repasar el borrado del arbol b de orden n
+- ver lo de grafos de nash y meterlo en un proyecto mio
+- asegurar que tenga todos los codigos
+- hacer un resumen por unidad
+
+
+
+- estudiar red black tree para el final (insercion sin borrado)
+
+
