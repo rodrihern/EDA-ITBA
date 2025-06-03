@@ -1,0 +1,115 @@
+# 🚀 Algoritmo de Dijkstra y Caminos en Grafos
+
+## 🔢 Dijkstra – Camino más corto (sin pesos negativos)
+
+### 📌 Objetivo:
+Encontrar la distancia más corta desde un nodo fuente a todos los demás nodos del grafo (no dirigido o dirigido, sin pesos negativos).
+
+### 🧱 Estructuras utilizadas:
+
+- `PriorityQueue<NodePQ>`: elige el nodo con menor costo conocido (mínimo)
+- `Set<V>`: conjunto de nodos ya visitados
+- `Map<V, Integer>`: costos mínimos desde el origen
+- `Map<V, V>`: predecesores de cada nodo (permite reconstruir caminos)
+
+---
+
+### 🧠 Lógica del algoritmo:
+
+1. Se inicializa la cola con el nodo fuente con costo 0.
+2. Todos los demás nodos reciben costo infinito (`Integer.MAX_VALUE`).
+3. Mientras la cola no esté vacía:
+   - Se saca el nodo de menor costo.
+   - Si ya fue visitado, se ignora.
+   - Se recorren sus vecinos:
+     - Si el nuevo costo es mejor que el anterior, se actualiza:
+       - Costo
+       - Predecesor
+       - Se vuelve a insertar en la PriorityQueue
+
+---
+
+### 🧪 Clase de soporte `NodePQ`:
+
+```java
+class NodePQ implements Comparable<NodePQ> {
+    V vertex;
+    Double distance;
+
+    public NodePQ(V vertex, double distance) {
+        this.vertex = vertex;
+        this.distance = distance;
+    }
+
+    @Override
+    public int compareTo(NodePQ o2) {
+        return Double.compare(distance, o2.distance);
+    }
+}
+
+PriorityQueue<NodePQ> pq = new PriorityQueue<>();
+Map<V, Integer> costo = new HashMap<>();
+Map<V, V> prev = new HashMap<>();
+Set<V> visited = new HashSet<>();
+
+// Inicialización
+for (V v : getAdjacencyList().keySet()) {
+    if (v.equals(source)) {
+        pq.add(new NodePQ(v, 0));
+        costo.put(v, 0);
+    } else {
+        costo.put(v, Integer.MAX_VALUE);
+    }
+    prev.put(v, null);
+}
+
+// Recorrido
+while (!pq.isEmpty()) {
+    NodePQ current = pq.poll();
+    if (visited.contains(current.vertex)) continue;
+    visited.add(current.vertex);
+
+    for (InternalEdge edge : getAdjacencyList().get(current.vertex)) {
+        if (visited.contains(edge.target)) continue;
+
+        int weight = getWeight(edge); // usa reflexión en el código original
+        int newCosto = costo.get(current.vertex) + weight;
+
+        if (newCosto < costo.get(edge.target)) {
+            costo.put(edge.target, newCosto);
+            prev.put(edge.target, current.vertex);
+            pq.add(new NodePQ(edge.target, newCosto));
+        }
+    }
+}
+```
+
+## Todos los caminos
+
+```java
+public void printAllPaths(V start, V end) {
+    Set<V> visited = new HashSet<>();
+    ArrayList<V> path = new ArrayList<>();
+    printAllPaths(start, end, visited, path);
+}
+
+private void printAllPaths(V current, V end, Set<V> visited, ArrayList<V> path) {
+    visited.add(current);
+    path.add(current);
+
+    if (current.equals(end)) {
+        System.out.println(path);
+    } else {
+        for (InternalEdge edge : getAdjacencyList().get(current)) {
+            if (!visited.contains(edge.target)) {
+                printAllPaths(edge.target, end, visited, path);
+            }
+        }
+    }
+
+    // backtrack
+    visited.remove(current);
+    path.remove(path.size() - 1);
+}
+
+```
